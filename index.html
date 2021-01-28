@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.5/zappar-aframe.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://libs.zappar.com/zappar-snapshot/0.0/zappar-snapshot.min.js"></script>
+
+<!--mine-->
+    <script src="pose.js"></script>
+    <script src="morph-target.js"></script> 
+    <script src="neck.js"></script>   
+    <script src="cap.js" type="module"></script>   
+   
+    <!--script src="build/CCapture.all.min.js"></script>
+    <script src="capture.js"></script>   
+    <script src="build/threecap.js"></script-->   
+
+    <link rel="stylesheet" href="index.css">
+
+    <meta charset="utf-8" />
+    <title>Organza</title>
+  
+
+ </head>
+
+  
+<body>
+  <!-- capture >
+  <div class="buttons" style=" z-index: 10">
+		<button id="start" style=" z-index: 10">RECORD</button>
+		<button id="stop" style=" z-index: 10">STOP</button>
+	</div-->
+
+
+  <!--slider menu-->
+    <div id="menu"  style=" z-index: 10">
+
+        <!-- size -->
+       <div id="sizeButton" style="z-index: 10">
+       <h2>
+       <table><tr><td>
+         <svg style="width:24px;height:24px;float: left" viewBox="0 0 24 24" >
+           <path  id="sizePath" fill="currentColor" d="M10.59,12L14.59,8H11V6H18V13H16V9.41L12,13.41V16H20V4H8V12H10.59M22,2V18H12V22H2V12H6V2H22M10,14H4V20H10V14Z">
+             
+           </path></svg>
+       </td>
+       <td>&nbsp;Dress size</td></tr></table>
+         </h2></div>
+       
+        <!-- pos -->
+       <div id="posButton" style="z-index: 10">
+       <h2>
+       <table><tr><td>
+         <svg style="width:24px;height:24px;float: left" viewBox="0 0 24 24" >
+           <path  id="posPath" fill="currentColor" d="M13,6V11H18V7.75L22.25,12L18,16.25V13H13V18H16.25L12,22.25L7.75,18H11V13H6V16.25L1.75,12L6,7.75V11H11V6H7.75L12,1.75L16.25,6H13Z">
+             
+           </path></svg>
+       </td>
+       <td>&nbsp;Dress position</td></tr></table>
+         </h2></div>
+         
+        <!-- light -->
+       <div id="lightButton" style="z-index: 10">
+       <h2>
+       <table><tr><td>
+         <svg style="width:24px;height:24px;float: left" viewBox="0 0 24 24" >
+           <path  id="myPath" fill="currentColor" d="M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M11,18H13V15.87C14.73,15.43 16,13.86 16,12A4,4 0 0,0 12,8A4,4 0 0,0 8,12C8,13.86 9.27,15.43 11,15.87V18Z">
+             
+           </path></svg>
+       </td>
+       <td>&nbsp;Lighting</td></tr></table>
+         </h2></div>
+       <!-- swap camera --> <!--
+       <div id="flip" style="z-index: 10">
+       <h2>
+       <table><tr><td>
+         <svg style="width:24px;height:24px;float: left" viewBox="0 0 24 24" >
+           <path  id="flipPath" fill="currentColor" d="M19.305,9.61c-0.235-0.235-0.615-0.235-0.85,0l-1.339,1.339c0.045-0.311,0.073-0.626,0.073-0.949
+                                       c0-3.812-3.09-6.901-6.901-6.901c-2.213,0-4.177,1.045-5.44,2.664l0.897,0.719c1.053-1.356,2.693-2.232,4.543-2.232
+                                       c3.176,0,5.751,2.574,5.751,5.751c0,0.342-0.037,0.675-0.095,1l-1.746-1.39c-0.234-0.235-0.614-0.235-0.849,0
+                                       c-0.235,0.235-0.235,0.615,0,0.85l2.823,2.25c0.122,0.121,0.282,0.177,0.441,0.172c0.159,0.005,0.32-0.051,0.44-0.172l2.25-2.25
+                                       C19.539,10.225,19.539,9.845,19.305,9.61z M10.288,15.752c-3.177,0-5.751-2.575-5.751-5.752c0-0.276,0.025-0.547,0.062-0.813
+                                       l1.203,1.203c0.235,0.234,0.615,0.234,0.85,0c0.234-0.235,0.234-0.615,0-0.85l-2.25-2.25C4.281,7.169,4.121,7.114,3.961,7.118
+                                       C3.802,7.114,3.642,7.169,3.52,7.291l-2.824,2.25c-0.234,0.235-0.234,0.615,0,0.85c0.235,0.234,0.615,0.234,0.85,0l1.957-1.559
+                                       C3.435,9.212,3.386,9.6,3.386,10c0,3.812,3.09,6.901,6.902,6.901c2.083,0,3.946-0.927,5.212-2.387l-0.898-0.719
+                                       C13.547,14.992,12.008,15.752,10.288,15.752z">
+             
+           </path></svg>
+       </td>
+       
+       <td>&nbsp;Swap camera</td></tr></table>
+         </h2></div>  
+       
+        hide show -->
+       
+         <!-- end -->
+       </div>
+        <!-- sizeSLider -->
+        <div id="size-slider-over" style=" z-index: 10; display:none">
+           <div id="size-slider-container" style=" z-index: 20; ">
+               <div id="size-slider-bar" style=" z-index: 22"></div>
+               <div id="size-slider-handle" style=" z-index: 20"></div>
+           </div> </div> 
+       
+        <!-- posSLider -->
+         <div id="pos-slider-over" style=" z-index: 10; display:none">
+           <div id="pos-slider-container" style=" z-index: 20;">
+               <div id="pos-slider-bar" style=" z-index: 22"></div>
+               <div id="pos-slider-handle" style=" z-index: 20"></div>
+           </div> 	</div> 
+       
+        <!-- Light SLider -->
+         <div id="light-slider-over" style=" z-index: 10; display:none">
+           <div id="light-slider-container" style=" z-index: 20; ">
+               <div id="light-slider-bar" style=" z-index: 22"></div>
+               <div id="light-slider-handle" style=" z-index: 20"></div>
+           </div> 	</div> 
+       
+  
+    <a-scene 
+    neck
+    lighter
+    poser
+    scaler
+    renderer="antialias: true;
+ physicallyCorrectLights: true; sortObjects: true;"
+    >
+    
+        <!-- Ask user for camera permissions, display some text if permission is denied -->
+        <a-entity zappar-permissions-ui id="permissions"></a-entity>
+        <!-- shows a full-page dialog that informs the user they're using an unsupported browser -->
+        <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+        
+        <a-camera zappar-camera="user-facing: true;"  />
+
+        <!-- Setup our face tracker -->
+        <a-entity zappar-face id="my-face-tracker" track>
+
+            <!-- Include a head mask object that will make sure the user's head appears in the center of our helmet -->
+            <a-entity zappar-head-mask="face:#my-face-tracker;"></a-entity>
+            <!-- Include a 3D model inside our face tracker -->
+           
+
+  <a-light id="luce3"  position="-0.88 6 2"
+  light = "
+  type: point;
+  intensity: 1;
+  castShadow: true;
+  shadowMapHeight:2048;
+  shadowMapWidth:2048;
+  shadowCameraTop: 10;
+  shadowBias:0.0001"  
+  shadow ></a-light>
+
+ <!-- end tracker -->
+ </a-entity>
+
+   <!-- face objects -->
+    <a-entity id="main" position="0 0 0" scale="1 1 1" rotation="0 0 0">
+      <a-entity id="cap"  position="0 -0.1 0.25" scale="1 1 1" rotation="0 180 0">
+      <a-entity id="off" visible="true">
+          
+                  <a-entity id="o1" gltf-model="url(assets/organza4Back.glb)" position="0 0 0" scale="1 1 1"
+                    cube-env-map="path: assets/cubemap/; extension: png; reflectivity: 0.9;"
+                    gltf-morph__dwn="morphtarget: down; value: 0"
+                    gltf-morph__run="morphtarget: up; value: 0"
+                    gltf-morph__left="morphtarget: left; value: 0"
+                    gltf-morph__right="morphtarget: right; value: 0"
+                  ></a-entity>
+                
+                   <!--a-entity id="o2" visible="false" gltf-model="url(assets/organza3backb.glb)" position="0 0 0" scale="1 1 1"
+                    cube-env-map="path: assets/cubemap/; extension: png; reflectivity: 0.9;"
+                    gltf-morph__dwn="morphtarget: down; value: 0"
+                    gltf-morph__run="morphtarget: up; value: 0"
+                    gltf-morph__left="morphtarget: left; value: 0"
+                    gltf-morph__right="morphtarget: right; value: 0"  
+                                  
+                   ></a-entity-->
+                    <a-entity id="o3" visible="true" gltf-model="url(assets/organzaF.glb)" position="0 0 0" scale="1 1 1"
+                    cube-env-map="path: assets/cubemap/; extension: png; reflectivity: 0.9;"
+                    gltf-morph__dwn="morphtarget: down; value: 0"
+                    gltf-morph__run="morphtarget: up; value: 0"
+                    gltf-morph__left="morphtarget: left; value: 0"
+                    gltf-morph__right="morphtarget: right; value: 0"
+                    ></a-entity>
+                  <!-- shadow="cast:true; receive:true; type: pcfsoft"  -->
+  </a-entity>
+  </a-entity>
+  </a-entity>
+  
+
+ <a-light id="luce1" type="directional"  position="-3 6 3" 
+   light="
+      type: directional;
+      intensity: 2;
+      castShadow: true;
+      shadowMapHeight:2048;
+      shadowMapWidth:2048;
+      shadowCameraTop: 10;
+      shadowBias:-0.0001" 
+      shadow>  </a-light>
+   
+
+  <a-entity id="2"
+    light="
+      type: directional;
+      intensity: 0;
+      castShadow: true;
+      shadowMapHeight:2048;
+      shadowMapWidth:2048;
+      shadowCameraTop: 10;
+      target: #my-face-tracker;"
+    position="1 4.3 2.5"
+    xrextras-attach="target: scarf; offset: 0 15 0;"
+    shadow>
+  </a-entity>
+
+  <a-light id="luce2" type="ambient" intensity="1.5"></a-light>
+
+</a-scene>
+</body>
+<script>
+////HIDE OBJECT WHEN NOT DETECCTED
+let myFaceTracker = document.getElementById("my-face-tracker");
+let attach = document.getElementById("main")
+myFaceTracker.addEventListener("zappar-visible", () => {
+  attach.setAttribute('visible', true)
+});
+myFaceTracker.addEventListener("zappar-notvisible", () => {
+  attach.setAttribute('visible', false)
+});
+
+</script>
+
+<script>
+</script>
+</html>
